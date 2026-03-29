@@ -705,12 +705,17 @@
           <div class="contact-link-icon">⌥</div>
           github.com/lydiabenmansour
         </a>
-        <span class="contact-link">
+        <span class="contact-link" id="email-link">
           <div class="contact-link-icon">@</div>
-          lydiabenmansour48 [at] gmail.com
+          <span id="email-display"></span>
         </span>
       </div>
     </div>
   </section>
 
-  <!--
+  <script>
+    const u = 'lydiabenmansour48';
+    const d = 'gmail.com';
+    const el = document.getElementById('email-display');
+    el.textContent = u + '@' + d;
+  </script>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lydia Benmansour — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #1a0a10;
+      --surface: #220d16;
+      --border: #3d1a28;
+      --accent: #f472b6;
+      --accent2: #fb7bc8;
+      --text: #fce7f3;
+      --muted: #9d6b82;
+      --tag-bg: #2d1020;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.5;
+    }
+
+    /* ── HEADER / HERO ── */
+    header {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .hero-left {
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border);
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 6vw, 88px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-top: 40px;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-role {
+      margin-top: 24px;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hero-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-line {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-line::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* ── HERO RIGHT ── */
+    .hero-right {
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.5;
+    }
+
+    .hero-bio {
+      position: relative;
+      z-index: 1;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: #c8ccd8;
+      max-width: 480px;
+    }
+
+    .hero-cta {
+      margin-top: 48px;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      transition: gap 0.3s;
+    }
+
+    .hero-cta:hover { gap: 20px; }
+
+    .hero-cta::after {
+      content: '→';
+      font-size: 16px;
+    }
+
+    /* ── SKILLS STRIP ── */
+    .skills-strip {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 60px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      overflow-x: auto;
+    }
+
+    .strip-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .skill-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .skill-tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      background: rgba(126,184,247,0.08);
+    }
+
+    /* ── SECTION LAYOUT ── */
+    section {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      padding: 40px 60px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+    }
+
+    .section-num {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 40px;
+    }
+
+    .project-card {
+      background: var(--bg);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .project-card:hover {
+      background: var(--surface);
+    }
+
+    .project-index {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    .project-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      flex: 1;
+    }
+
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tech-pill {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid rgba(167,139,250,0.25);
+      padding: 3px 10px;
+      border-radius: 1px;
+    }
+
+    .project-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      flex-shrink: 0;
+    }
+
+    .project-card:hover .project-dot { opacity: 1; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 40px;
+    }
+
+    .about-left {
+      padding: 40px 60px;
+      border-right: 1px solid var(--border);
+    }
+
+    .about-right {
+      padding: 40px 60px;
+    }
+
+    .about-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #c0c4d0;
+    }
+
+    .stat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      padding: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .contact-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover { color: var(--accent); }
+
+    .contact-link-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      border-radius: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .contact-link:hover .contact-link-icon {
+      border-color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 100;
+      padding: 24px 40px;
+      display: flex;
+      gap: 32px;
+    }
+
+    nav a {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-name    { animation: fadeUp 0.9s ease both; animation-delay: 0.1s; }
+    .hero-role    { animation: fadeUp 0.9s ease both; animation-delay: 0.25s; }
+    .hero-bio     { animation: fadeUp 0.9s ease both; animation-delay: 0.4s; }
+    .hero-cta     { animation: fadeUp 0.9s ease both; animation-delay: 0.55s; }
+    .hero-bottom  { animation: fadeUp 0.9s ease both; animation-delay: 0.3s; }
+    .skill-tags   { animation: fadeUp 0.9s ease both; animation-delay: 0.6s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      header { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 60px 32px; }
+      .hero-right { padding: 60px 32px; }
+      .skills-strip { padding: 24px 32px; }
+      .section-header { padding: 40px 32px 0; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 32px; }
+      .about-right { padding: 40px 32px; }
+      .contact-inner { padding: 40px 32px; }
+      footer { padding: 24px 32px; flex-direction: column; gap: 8px; text-align: center; }
+      nav { padding: 16px 24px; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#projets">Projets</a>
+    <a href="#apropos">À propos</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- HERO -->
+  <header>
+    <div class="hero-left">
+      <div>
+        <p class="hero-label">Portfolio — 2025</p>
+        <h1 class="hero-name">Lydia<br><em>Benmansour</em></h1>
+        <p class="hero-role">Ingénieure en Génie Logiciel · 3ème année</p>
+      </div>
+      <div class="hero-bottom">
+        <div class="hero-line">Université Abderrahmane Mira · Béjaïa</div>
+        <div class="hero-line">Architectures logicielles & développement web</div>
+        <div class="hero-line">Disponible pour un stage</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="grid-bg"></div>
+      <p class="hero-bio">
+        Actuellement en 3ème année de cycle d'ingénieur, je me spécialise dans la conception d'architectures logicielles robustes et performantes. Vous trouverez ici une sélection de mes réalisations techniques, témoignant de ma maîtrise des outils de développement modernes et de mon engagement envers l'excellence technique.
+      </p>
+      <a href="#projets" class="hero-cta">Voir mes projets</a>
+    </div>
+  </header>
+
+  <!-- SKILLS STRIP -->
+  <div class="skills-strip">
+    <span class="strip-label">Technologies</span>
+    <div class="skill-tags">
+      <span class="skill-tag">HTML / CSS</span>
+      <span class="skill-tag">JavaScript</span>
+      <span class="skill-tag">Java</span>
+      <span class="skill-tag">PHP</span>
+      <span class="skill-tag">PHPMyAdmin</span>
+      <span class="skill-tag">Oracle DB</span>
+      <span class="skill-tag">Génie Logiciel</span>
+      <span class="skill-tag">Architecture Logicielle</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projets">
+    <div class="section-header">
+      <span class="section-num">01 /</span>
+      <h2 class="section-title">Projets réalisés</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <span class="project-index">Projet 01</span>
+        <h3 class="project-name">Architecture Logicielle</h3>
+        <p class="project-desc">Projet d'étude portant sur la conception et la modélisation d'architectures logicielles robustes — diagrammes UML, patterns de conception et documentation technique.</p>
+        <div class="project-footer">
+          <div class="project-tech">
+            <span class="tech-pill">UML</span>
+            <span class="tech-pill">Java</span>
+            <span class="tech-pill">Design Patterns</span>
+          </div>
+          <div class="project-dot"></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-index">Projet 02</span>
+        <h3 class="project-name">DiabLife</h3>
+        <p class="project-desc">Application de gestion médicale type cabinet — suivi des patients, gestion des rendez-vous et des dossiers médicaux. Interface pensée pour les professionnels de santé.</p>
+        <div class="project-footer">
+          <div class="project-tech">
+            <span class="tech-pill">HTML/CSS</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">PHP</span>
+            <span class="tech-pill">Oracle</span>
+          </div>
+          <div class="project-dot"></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-index">Projet 03</span>
+        <h3 class="project-name">Tic Tac Toe</h3>
+        <p class="project-desc">Jeu interactif développé en JavaScript pur — logique de jeu, détection de victoire, interface dynamique et fluide sans rechargement de page.</p>
+        <div class="project-footer">
+          <div class="project-tech">
+            <span class="tech-pill">HTML/CSS</span>
+            <span class="tech-pill">JavaScript</span>
+          </div>
+          <div class="project-dot"></div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-index">Projet 04</span>
+        <h3 class="project-name">Pharma Express</h3>
+        <p class="project-desc">Plateforme e-commerce de pharmacie en ligne — catalogue de médicaments, panier d'achat, gestion des commandes et interface d'administration.</p>
+        <div class="project-footer">
+          <div class="project-tech">
+            <span class="tech-pill">HTML/CSS</span>
+            <span class="tech-pill">JavaScript</span>
+            <span class="tech-pill">PHP</span>
+            <span class="tech-pill">PHPMyAdmin</span>
+          </div>
+          <div class="project-dot"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="apropos">
+    <div class="section-header">
+      <span class="section-num">02 /</span>
+      <h2 class="section-title">À propos</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="about-text">
+          Passionnée par la création de solutions logicielles élégantes et efficaces, je m'efforce d'allier rigueur technique et sens du détail dans chacun de mes projets. Mon cursus en génie logiciel m'a permis de développer une vision globale du cycle de vie d'un logiciel, de la conception à la livraison.
+        </p>
+      </div>
+      <div class="about-right">
+        <div class="stat-list">
+          <div class="stat-item">
+            <span class="stat-value">4</span>
+            <span class="stat-label">Projets réalisés</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">3A</span>
+            <span class="stat-label">Cycle ingénieur</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">6+</span>
+            <span class="stat-label">Technologies maîtrisées</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">03 /</span>
+      <h2 class="section-title">Contact</h2>
+    </div>
+    <div class="contact-inner">
+      <p class="contact-heading">Travaillons<br>ensemble.</p>
+      <div class="contact-links">
+        <a href="https://github.com/lydiabenmansour" target="_blank" class="contact-link">
+          <div class="contact-link-icon">⌥</div>
+          github.com/lydiabenmansour
+        </a>
+        <a href="mailto:lydiabenmansour48@gmail.com" class="contact-link">
+          <div class="contact-link-icon">@</div>
+          lydiabenmansour48@gmail.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Lydia Benmansour</span>
+    <span>Génie Logiciel · Béjaïa · Algérie</span>
+  </footer>
+
+</body>
+</html>
